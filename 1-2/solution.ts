@@ -1,13 +1,11 @@
 import input from './input.txt';
 
 const wordDigits = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-const regex = new RegExp(wordDigits.join('|'), "g")
-
-console.log(regex)
+// const regex = new RegExp(wordDigits.join('|'), "g")
 
 const array = input.split('\n');
 
-const result = array.reduce((previous: number, current: string) => {
+const result = array.reduce((sum: number, current: string) => {
     // I really loved these solutions, but "twone" is apparently supposed to be neither 2ne, nor tw1, but 21, which is imho dumb (sorry)
 
     // 2ne:
@@ -33,7 +31,7 @@ const result = array.reduce((previous: number, current: string) => {
     const calibrationValue = +(firstDigit + lastDigit);
 
     // console.log(current, charArray.join(''), calibrationValue)
-    return previous + calibrationValue
+    return sum + calibrationValue
 }, 0)
 
 console.log(result)
