@@ -1,11 +1,11 @@
 import input from './input.txt';
 
-const wordDigits = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+const wordDigits = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 // const regex = new RegExp(wordDigits.join('|'), "g")
 
 const array = input.split('\n');
 
-const result = array.reduce((sum: number, current: string) => {
+const result = array.reduce((sum, current) => {
     // I really loved these solutions, but "twone" is apparently supposed to be neither 2ne, nor tw1, but 21, which is imho dumb (sorry)
 
     // 2ne:
@@ -13,7 +13,7 @@ const result = array.reduce((sum: number, current: string) => {
     // const charArray = parsedDigitString.split('');
 
     // tw1:
-    // let parsedDigitString
+    // let parsedDigitString: string
     // wordDigits.forEach((word, index) => parsedDigitString = parsedDigitString.replaceAll(word, '' + (index + 1)))
     // const charArray = parsedDigitString.split('');
 
