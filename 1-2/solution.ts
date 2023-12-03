@@ -26,8 +26,8 @@ const result = array.reduce((sum, current) => {
         }
     })
     
-    const firstDigit = charArray.find(c => !isNaN(parseInt(c))) || '';
-    const lastDigit = charArray.findLast(c => !isNaN(parseInt(c))) || '';
+    const firstDigit = charArray.find(c => !isNaN(+c)) || '';
+    const lastDigit = charArray.findLast(c => !isNaN(+c)) || '';
     const calibrationValue = +(firstDigit + lastDigit);
 
     // console.log(current, charArray.join(''), calibrationValue)
