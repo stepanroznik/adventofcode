@@ -1,16 +1,6 @@
 import input from './input.txt';
 
-const wordDigits = [
-    'one',
-    'two',
-    'three',
-    'four',
-    'five',
-    'six',
-    'seven',
-    'eight',
-    'nine',
-];
+const wordDigits = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
 // const regex = new RegExp(wordDigits.join('|'), "g")
 
 const array = input.split('\n');

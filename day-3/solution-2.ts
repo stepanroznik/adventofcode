@@ -23,9 +23,7 @@ const gearRatios = array.map((line, lineIndex) => {
             [1, 0],
         ];
 
-        const neighbors = positions.map(
-            ([y, x]) => array[lineIndex + y]?.[gearIndex + x]
-        );
+        const neighbors = positions.map(([y, x]) => array[lineIndex + y]?.[gearIndex + x]);
 
         const validNumbers: {
             number: number;
@@ -63,18 +61,13 @@ const gearRatios = array.map((line, lineIndex) => {
         });
 
         // Remove duplicates
-        const stringPositions = validNumbers.map(({ positions }) =>
-            JSON.stringify(positions)
-        );
+        const stringPositions = validNumbers.map(({ positions }) => JSON.stringify(positions));
         const uniqueValidNumbers = validNumbers.filter(
-            ({ positions }, index) =>
-                !stringPositions.includes(JSON.stringify(positions), index + 1)
+            ({ positions }, index) => !stringPositions.includes(JSON.stringify(positions), index + 1)
         );
 
         if (uniqueValidNumbers.length === 2)
-            lineRatios.push(
-                uniqueValidNumbers[0].number * uniqueValidNumbers[1].number
-            );
+            lineRatios.push(uniqueValidNumbers[0].number * uniqueValidNumbers[1].number);
     }
     return lineRatios;
 });

@@ -16,8 +16,7 @@ const parsedGameInput: ICubeSet[][] = input.split('\n').map((game) => {
         for (const color of colors) {
             const colorNumberInputs = set.split(', ');
             colorNumberInputs.forEach((colorNumber) => {
-                if (colorNumber.indexOf(color) !== -1)
-                    parsedSet[color] = +colorNumber.match(/\d/g)!.join('') || 0;
+                if (colorNumber.indexOf(color) !== -1) parsedSet[color] = +colorNumber.match(/\d/g)!.join('') || 0;
             });
         }
         return parsedSet;

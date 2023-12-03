@@ -22,8 +22,7 @@ const validNumbers2DArray = array.map((line, lineIndex) => {
          */
         const neighbors = [bottomLeft, midLeft, topLeft];
 
-        for (let i = 0; i < numberLength; i++)
-            neighbors.push(array[lineIndex - 1]?.[numberIndex + i]);
+        for (let i = 0; i < numberLength; i++) neighbors.push(array[lineIndex - 1]?.[numberIndex + i]);
 
         const topRight = array[lineIndex - 1]?.[numberIndex + numberLength];
         const midRight = array[lineIndex][numberIndex + numberLength];
@@ -31,8 +30,7 @@ const validNumbers2DArray = array.map((line, lineIndex) => {
 
         neighbors.push(topRight, midRight, bottomRight);
 
-        for (let i = 0; i < numberLength; i++)
-            neighbors.push(array[lineIndex + 1]?.[numberIndex + i]);
+        for (let i = 0; i < numberLength; i++) neighbors.push(array[lineIndex + 1]?.[numberIndex + i]);
 
         // if neighbors include anything else than another number or a dot (.), add the number to validNumbers
         if (neighbors.join('').match(/[^.\d]/)) validNumbers.push(+number);
@@ -40,8 +38,6 @@ const validNumbers2DArray = array.map((line, lineIndex) => {
     return validNumbers;
 });
 
-const validNumbersSum = validNumbers2DArray
-    .flat()
-    .reduce((sum, num) => sum + num, 0);
+const validNumbersSum = validNumbers2DArray.flat().reduce((sum, num) => sum + num, 0);
 
 console.log(validNumbersSum);
