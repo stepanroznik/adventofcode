@@ -14,23 +14,24 @@ const maximum = {
     blue: 14,
 } as const satisfies ICubeSet;
 
-const parsedGameInput: ICubeSet[][] = input.split('\n').map(game => {
-    const gameContent = game.split(': ')[1]
-    const gameSetsInput = gameContent.split('; ')
+const parsedGameInput: ICubeSet[][] = input.split('\n').map((game) => {
+    const gameContent = game.split(': ')[1];
+    const gameSetsInput = gameContent.split('; ');
     const parsedGameSets = gameSetsInput.map((set) => {
-        const parsedSet: ICubeSet = {}
+        const parsedSet: ICubeSet = {};
         for (const color of colors) {
             const colorNumberInputs = set.split(', ');
-            colorNumberInputs.forEach(colorNumber => {
-                if (colorNumber.indexOf(color) !== -1) parsedSet[color] = +colorNumber.match(/\d/g)!.join('') || 0;
-            })
+            colorNumberInputs.forEach((colorNumber) => {
+                if (colorNumber.indexOf(color) !== -1)
+                    parsedSet[color] = +colorNumber.match(/\d/g)!.join('') || 0;
+            });
         }
         return parsedSet;
-    })
-    return parsedGameSets
-})
+    });
+    return parsedGameSets;
+});
 
-const possibleGameSets: boolean[] = parsedGameInput.map(game => {
+const possibleGameSets: boolean[] = parsedGameInput.map((game) => {
     for (const set of game) {
         for (const color of colors) {
             if (set[color]! > maximum[color]) return false;
@@ -38,10 +39,10 @@ const possibleGameSets: boolean[] = parsedGameInput.map(game => {
     }
 
     return true;
-})
+});
 
 const gameIdSum = possibleGameSets.reduce((sum, isPossible, index) => {
     return sum + (isPossible ? index + 1 : 0);
-}, 0)
+}, 0);
 
 console.log(gameIdSum);

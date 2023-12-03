@@ -1,6 +1,16 @@
 import input from './input.txt';
 
-const wordDigits = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+const wordDigits = [
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+];
 // const regex = new RegExp(wordDigits.join('|'), "g")
 
 const array = input.split('\n');
@@ -22,16 +32,16 @@ const result = array.reduce((sum, current) => {
     wordDigits.forEach((word, wordIndex) => {
         for (let i = 0; i < current.length; i++) {
             const position = current.indexOf(word, i);
-            if (position > -1) charArray[position] = '' + (wordIndex + 1)
+            if (position > -1) charArray[position] = '' + (wordIndex + 1);
         }
-    })
-    
-    const firstDigit = charArray.find(c => !isNaN(+c)) || '';
-    const lastDigit = charArray.findLast(c => !isNaN(+c)) || '';
+    });
+
+    const firstDigit = charArray.find((c) => !isNaN(+c)) || '';
+    const lastDigit = charArray.findLast((c) => !isNaN(+c)) || '';
     const calibrationValue = +(firstDigit + lastDigit);
 
     // console.log(current, charArray.join(''), calibrationValue)
-    return sum + calibrationValue
-}, 0)
+    return sum + calibrationValue;
+}, 0);
 
-console.log(result)
+console.log(result);
