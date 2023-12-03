@@ -2,7 +2,7 @@ import input from './input.txt';
 
 const array = input.split('\n');
 
-const validNumbers2DArrray = array.map((line, lineIndex) => {
+const validNumbers2DArray = array.map((line, lineIndex) => {
     const numberMatches = line.matchAll(/\d+/g)
     const validNumbers = [];
 
@@ -16,11 +16,11 @@ const validNumbers2DArrray = array.map((line, lineIndex) => {
 
         /**
          * Neighbors order is like this, starting with 0:
-         * 3345
+         * 2345
          * 1**6
          * 0987
          */
-        const neighbors = [bottomLeft, topLeft, midLeft];
+        const neighbors = [bottomLeft, midLeft, topLeft];
     
         for (let i = 0; i < numberLength; i++) neighbors.push(array[lineIndex - 1]?.[numberIndex + i])
 
@@ -38,6 +38,6 @@ const validNumbers2DArrray = array.map((line, lineIndex) => {
     return validNumbers;
 })
 
-const validNumbersSum = validNumbers2DArrray.flat().reduce((sum, num) => sum + num, 0)
+const validNumbersSum = validNumbers2DArray.flat().reduce((sum, num) => sum + num, 0)
 
 console.log(validNumbersSum)
