@@ -25,8 +25,11 @@ for (let currentCardIndex = 0; currentCardIndex < newCardsPerCard.length; curren
         const arrayToAdd = newCardsPerCard.slice(1 + currentCardIndex, 1 + currentCardIndex + numCardsToAdd);
         if (array[currentCardIndex]) arrayOfArrays.push([...Array(currentCardIndex + 1).fill(null), ...arrayToAdd]);
     });
+    console.log(currentCardIndex)
 }
 
-const totalCards = arrayOfArrays.flat().filter((n) => n !== null).length;
+const totalCards = arrayOfArrays.reduce((total, currentArray) => {
+    return total + currentArray.filter((card) => card !== null).length;
+}, 0);
 
 console.log(totalCards);
