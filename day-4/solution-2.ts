@@ -15,21 +15,16 @@ const newCardsPerCard = parsedCards.map(([elfNumbers, winningNumbers]) =>
     elfNumbers.reduce((total, currentNumber) => total + +winningNumbers.includes(currentNumber), 0)
 );
 
-// I am REALLY not proud of this part, I know I could write this way more efficiently but I don't want to waste more time on it
+const cardCounts = Array(newCardsPerCard.length).fill(1);
 
-const arrayOfArrays = [newCardsPerCard];
+newCardsPerCard.forEach((cardsToAdd, cardIndex) => {
+    for (let cardWinningCount = 0; cardWinningCount < cardsToAdd; cardWinningCount++) {
+        for (let cardNumber = 0; cardNumber < cardCounts[cardIndex]; cardNumber++) {
+            cardCounts[cardIndex + cardWinningCount + 1]++;
+        }
+    }
+});
 
-for (let currentCardIndex = 0; currentCardIndex < newCardsPerCard.length; currentCardIndex++) {
-    arrayOfArrays.forEach((array) => {
-        const numCardsToAdd = newCardsPerCard[currentCardIndex];
-        const arrayToAdd = newCardsPerCard.slice(1 + currentCardIndex, 1 + currentCardIndex + numCardsToAdd);
-        if (array[currentCardIndex]) arrayOfArrays.push([...Array(currentCardIndex + 1).fill(null), ...arrayToAdd]);
-    });
-    console.log(currentCardIndex)
-}
-
-const totalCards = arrayOfArrays.reduce((total, currentArray) => {
-    return total + currentArray.filter((card) => card !== null).length;
-}, 0);
+const totalCards = cardCounts.reduce((total, currentCardCount) => (total += currentCardCount), 0);
 
 console.log(totalCards);
