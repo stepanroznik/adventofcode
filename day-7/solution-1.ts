@@ -40,7 +40,7 @@ const numberifiedHands = hands.map((hand) => {
     } else type = 1;
 
     const decimals = parseInt(card, 16);
-    const numberifiedCard = +`${type}.${decimals}`;
+    const numberifiedCard = type + decimals / 1000000;
     return { numberifiedCard, bid: +hand.bid };
 });
 

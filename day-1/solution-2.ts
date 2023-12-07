@@ -30,7 +30,6 @@ const result = array.reduce((sum, current) => {
     const lastDigit = charArray.findLast((c) => !isNaN(+c)) || '';
     const calibrationValue = +(firstDigit + lastDigit);
 
-    // console.log(current, charArray.join(''), calibrationValue)
     return sum + calibrationValue;
 }, 0);
 
