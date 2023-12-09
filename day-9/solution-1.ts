@@ -12,17 +12,9 @@ const nextNumbers = reports.map((report) => {
     };
     addDiffs(report);
 
-    const nextNumber = diffsPerLine
-        .reverse()
-        .reduce((previousDiff, currentDiff, index) => {
-            if (index) {
-                const currentLastItem = currentDiff[currentDiff.length - 1];
-                const previousLastItem = previousDiff[previousDiff.length - 1];
-                currentDiff.push(currentLastItem + previousLastItem);
-            }
-            return currentDiff;
-        }, [])
-        .findLast(() => true);
+    const lastNumbersOnly = diffsPerLine.map((diffs) => diffs[diffs.length - 1]);
+
+    const nextNumber = lastNumbersOnly.reverse().reduce((previousItem, currentItem) => currentItem + previousItem, 0);
 
     return nextNumber!;
 });
