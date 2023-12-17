@@ -1,11 +1,39 @@
 import input from './input.txt';
 
-// const input = `
-// 7-F7-
-// .FJ|7
-// SJLL7
-// |F--J
-// LJ.LJ`;
+// const input = `FF7FSF7F7F7F7F7F---7
+// L|LJ||||||||||||F--J
+// FL-7LJLJ||||||LJL-77
+// F--JF--7||LJLJ7F7FJ-
+// L---JF-JLJ.||-FJLJJ7
+// |F|F-JF---7F7-L7L|7|
+// |FFJF7L7F-JF7|JL---7
+// 7-L-JL7||F7|L7F-7F7|
+// L.L7LFJ|||||FJL7||LJ
+// L7JLJL-JLJLJL--JLJ.L`;
+
+// const input = `.F----7F7F7F7F-7....
+// .|F--7||||||||FJ....
+// .||.FJ||||||||L7....
+// FJL7L7LJLJ||LJ.L-7..
+// L--J.L7...LJS7F-7L7.
+// ....F-J..F7FJ|L7L7L7
+// ....L7.F7||L7|.L7L7|
+// .....|FJLJ|FJ|F7|.LJ
+// ....FJL-7.||.||||...
+// ....L---J.LJ.LJLJ...`;
+
+/*
+O┌----┐┌┐┌┐┌┐┌-┐OOOO
+O|┌--┐||||||||┌┘OOOO
+O||O┌┘||||||||└┐OOOO
+┌┘└┐└┐└┘└┘||└┘*└-┐OO
+└--┘O└┐***└┘┌┐┌-┐└┐O
+OOOO┌-┘**┌┐┌┘|└┐└┐└┐
+OOOO└┐*┌┐||└┐|*└┐└┐|
+OOOOO|┌┘└┘|┌┘|┌┐|O└┘
+OOOO┌┘└-┐O||O||||OOO
+OOOO└---┘O└┘O└┘└┘OOO
+*/
 
 type Direction = 'up' | 'down' | 'left' | 'right';
 
@@ -85,8 +113,10 @@ for (const pipeKey in Pipe) {
     }
 }
 
-function positionsMatch(position1: [number, number], position2: [number, number]): boolean {
-    return position1[0] === position2[0] && position1[1] === position2[1];
+const initialType = currentType;
+
+function includesPosition(positionsArray: [number, number][], positionToFind: [number, number]): boolean {
+    return positionsArray.some(([x, y]) => x === positionToFind[0] && y === positionToFind[1]);
 }
 
 for (;;) {
@@ -97,9 +127,9 @@ for (;;) {
         const direction = dir as Direction;
         const [dx, dy] = directions[direction];
         const [newX, newY] = [currentPosition[0] + dx, currentPosition[1] + dy];
-        const pipeAtDir = pipeMap[newY]?.[newX] as Pipe | 'S';
+        const pipeAtDir = pipeMap[newY][newX] as Pipe | 'S';
         if (
-            !positionsMatch(previousPosition, [newX, newY]) &&
+            !includesPosition([previousPosition], [newX, newY]) &&
             !wasFound &&
             (pipeAtDir === 'S' || possiblePipes.includes(pipeAtDir))
         ) {
@@ -111,4 +141,45 @@ for (;;) {
     if (currentType === 'S') break;
 }
 
-console.log((positionsTaken.length - 1) / 2);
+pipeMap.forEach((line, index) => (pipeMap[index] = line.replace('S', initialType)));
+
+let enclosedTiles: [number, number][] = [];
+
+const isComplexWall = (positions: [number, number]) => {
+    const [x, y] = positions;
+    if (pipeMap[y][x] === Pipe.SouthEast)
+        for (let i = 1; ; i++) {
+            const nextPipe = pipeMap[y][x + i];
+            if (!includesPosition(positionsTaken, [x + i, y])) break;
+            if (nextPipe === Pipe.NorthWest) return true;
+            else if (nextPipe === Pipe.Horizontal) continue;
+            else break;
+        }
+    if (pipeMap[y][x] === Pipe.NorthEast)
+        for (let i = 1; ; i++) {
+            const nextPipe = pipeMap[y][x + i];
+            if (!includesPosition(positionsTaken, [x + i, y])) break;
+            if (nextPipe === Pipe.SouthWest) return true;
+            else if (nextPipe === Pipe.Horizontal) continue;
+            else break;
+        }
+    return false;
+};
+
+for (const y in pipeMap) {
+    for (const x in [...pipeMap[y]]) {
+        if (includesPosition(positionsTaken, [+x, +y])) continue;
+
+        const XPositionsTaken = positionsTaken
+            .filter(([xp, yp]) => +y === yp && pipeMap[yp][xp] !== Pipe.Horizontal && !isComplexWall([xp, yp]))
+            .sort(([ax], [bx]) => ax - bx);
+
+        const closestXIndex = XPositionsTaken.findIndex(([xp]) => +x < xp);
+
+        if (![closestXIndex, closestXIndex].includes(-1) && closestXIndex % 2 !== 0) {
+            enclosedTiles.push([+x + 1, +y + 1]);
+        }
+    }
+}
+
+console.log(enclosedTiles, enclosedTiles.length);
