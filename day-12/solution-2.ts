@@ -1,12 +1,25 @@
-import input from './input.txt';
+// import input from './input.txt';
+
+const input = `???.### 1,1,3
+.??..??...?##. 1,1,3
+?#?#?#?#?#?#?#? 1,3,1,6
+????.#...#... 4,1,1
+????.######..#####. 1,6,5
+?###???????? 3,2,1`;
 
 const springsRegex = /^[\?#]+$/;
 
-const rows = input
-    .split(/\n/)
-    .map((row) =>
-        row.split(' ').map((entry, index) => (!index ? entry : entry.split(',').map((number) => +number)))
-    ) as [string, number[]][];
+const rows = input.split(/\n/).map((row) =>
+    row.split(' ').map((entry, index) =>
+        !index
+            ? Array(5).fill(entry).join('?')
+            : Array(5)
+                  .fill(entry)
+                  .join(',')
+                  .split(',')
+                  .map((number) => +number)
+    )
+) as [string, number[]][];
 
 const createCombinations = (
     arrays: number[][],
@@ -30,7 +43,7 @@ const createCombinations = (
     return combinations;
 };
 
-const sum = rows.reduce((total, currentRow) => {
+const sum = rows.reduce((total, currentRow, rowIndex) => {
     const [record, groups] = currentRow;
 
     const positionsPerGroup: number[][] = Array(groups.length)
@@ -46,6 +59,8 @@ const sum = rows.reduce((total, currentRow) => {
     }
 
     const combinations = createCombinations(positionsPerGroup);
+
+    console.log('Current row:', rowIndex, 'Combinations to analyze:', combinations.length);
 
     const validCombinations: string[] = [];
     combinations.forEach((combination) => {
